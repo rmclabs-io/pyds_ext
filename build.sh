@@ -9,3 +9,10 @@ c++ -O3 -Wall -shared -std=c++11 \
     -o ${NAME}.so \
     -I${NVDS_PATH} \
     `pkg-config --cflags ${PKGS}`
+
+c++ -O3 -Wall -shared -std=c++11 \
+    -fPIC `python3 -m pybind11 --includes` \
+    pyds_bbox_meta.cpp \
+    -o pyds_bbox_meta.so \
+    -I${NVDS_PATH} \
+    `pkg-config --cflags ${PKGS}`
