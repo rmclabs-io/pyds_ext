@@ -1,4 +1,4 @@
-# pyds_tracker_meta
+# pyds_custom_meta
 
 [pybind11](https://github.com/pybind/pybind11) wrapper to access Nvidia [DeepStream](https://developer.nvidia.com/deepstream-sdk) tracker meta info (`NvDsPastFrame...` classes) from Python.
 
@@ -97,7 +97,7 @@ The example snippet provided bellow shows how to cast a user meta to a past fram
 
 
 ```python
-import pyds_object_meta
+import pyds_bbox_meta
 
 #TODO: Usage example
 
