@@ -43,8 +43,8 @@ EXT_MODULES = [
 
 setup(
     name = 'pyds_metadata_patch',
-    version = '1.0',
-    description = """Install precompiled DeepStream Python bindings for tracker metadata extension""",
+    version = '1.0.1',
+    description = """DeepStream bindings for tracker and bbox metadata""",
     packages=[''],
     # package_data={'': Path(".").glob("*.so")},
     ext_modules=EXT_MODULES,
