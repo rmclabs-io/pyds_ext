@@ -23,5 +23,8 @@ setup(
        description = """Install precompiled DeepStream Python bindings for tracker metadata extension""",
        packages=[''],
        package_data={'': ['pyds_tracker_meta.so', 'pyds_bbox_meta.so']},
-       ext_modules=ext_modules
+       ext_modules=ext_modules,
+       setup_requires=[
+        "pybind11 >= 2.6.1",
+    ]
        )
