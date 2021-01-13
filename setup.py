@@ -6,6 +6,7 @@ import shlex
 import subprocess as sp
 import sys
 import warnings
+
 try:
     # Available at setup time due to pyproject.toml
     from pybind11.setup_helpers import Pybind11Extension
@@ -41,14 +42,24 @@ EXT_MODULES = [
     ) for module in Path("src").glob("*.cpp")
 ]
 
-setup(
-    name = 'pyds_metadata_patch',
-    version = '1.1.0',
-    description = """DeepStream bindings for tracker and bbox metadata""",
-    packages=[''],
-   package_data={"": ['vendor/pyds.so']},
-    ext_modules=EXT_MODULES,
-    # Currently, build_ext only provides an optional "highest supported C++
-    # level" feature, but in the future it may provide more features.
-    cmdclass={"build_ext": build_ext},
-)
+def main():
+    install_requires = []
+    dep_name = 'pyds'
+    setup_py = pathlib.Path("/opt/nvidia/deepstream/deepstream/lib/setup.py")
+    parent = setup_py.parent
+    if parent.is_dir():
+        install_requires.append(f'{dep_name} @ {parent}')
+
+    setup(
+        name = 'pyds_metadata_patch',
+        version = '1.1.1',
+        description = """DeepStream bindings for tracker and bbox metadata""",
+        install_requires=install_requires,
+        ext_modules=EXT_MODULES,
+        # Currently, build_ext only provides an optional "highest supported C++
+        # level" feature, but in the future it may provide more features.
+        cmdclass={"build_ext": build_ext},
+    )
+
+if __name__ == '__main__':
+    main()
