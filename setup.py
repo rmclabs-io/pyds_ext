@@ -46,7 +46,7 @@ setup(
     version = '1.1.0',
     description = """DeepStream bindings for tracker and bbox metadata""",
     packages=[''],
-   package_data={"": ['/opt/nvidia/deepstream/deepstream/lib/pyds.so']},
+   package_data={"": ['vendor/pyds.so']},
     ext_modules=EXT_MODULES,
     # Currently, build_ext only provides an optional "highest supported C++
     # level" feature, but in the future it may provide more features.
