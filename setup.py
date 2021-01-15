@@ -1,5 +1,6 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 
-import os
 from pathlib import Path
 from setuptools import setup
 from setuptools import Extension as BaseExtension
@@ -9,13 +10,12 @@ import subprocess as sp
 import sys
 import warnings
 
-VERSION = '1.1.3'
+VERSION = '1.1.4'
 
 try:
-    # Available at setup time due to pyproject.toml
+    # Available at setup time due to pyproject.toml (PEP 517, 518)
     from pybind11.setup_helpers import Pybind11Extension
     from pybind11.setup_helpers import build_ext
-    # from pybind11 import get_cmake_dir
 except ImportError as exc:
     warnings.warn(repr(exc))
     warnings.warn(f"Maybe you forgot to upgrade pip?")
