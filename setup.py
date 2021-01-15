@@ -8,6 +8,9 @@ import shutil
 import subprocess as sp
 import sys
 import warnings
+
+VERSION = '1.1.3'
+
 try:
     # Available at setup time due to pyproject.toml
     from pybind11.setup_helpers import Pybind11Extension
@@ -21,7 +24,7 @@ except ImportError as exc:
 
 
 INCLUDE_DIRS = [
-    f"{os.environ['DS']}/sources/includes/",
+    f"/opt/nvidia/deepstream/deepstream/sources/includes/",
     *[
         inc.lstrip('-I')
         for inc in shlex.split(
@@ -81,7 +84,7 @@ def main():
 
     setup(
         name = 'pyds_metadata_patch',
-        version = '1.1.2',
+        version = VERSION,
         description = """DeepStream bindings for tracker and bbox metadata""",
         ext_modules=EXT_MODULES,
         cmdclass={"build_ext": CustomExtBuilder},
