@@ -84,7 +84,7 @@ def main():
 
     setup(
         name = 'pyds_metadata_patch',
-        version = __VERSION__,
+        version = VERSION,
         description = """DeepStream bindings for tracker and bbox metadata""",
         ext_modules=EXT_MODULES,
         cmdclass={"build_ext": CustomExtBuilder},
