@@ -83,9 +83,9 @@ EXT_MODULES = [
 def main():
 
     setup(
-        name = 'pyds_metadata_patch',
-        version = VERSION,
-        description = """DeepStream bindings for tracker and bbox metadata""",
+        name='pyds_ext',
+        version=VERSION,
+        description="DeepStream bindings and extra metadata for tracker and bbox",
         ext_modules=EXT_MODULES,
         cmdclass={"build_ext": CustomExtBuilder},
     )

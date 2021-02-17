@@ -29,7 +29,7 @@
 
 ```console
 pip install --upgrade pip>=10
-pip install git+https://github.com/rmclabs-io/pyds_custom_parser.git
+pip install pyds_ext
 ```
 
 ## Usage
@@ -126,7 +126,7 @@ def osd_sink_pad_buffer_probe(pad, info, u_data):
             break
 ```
 
-NOTE: see [pythia](https://github.com/rmclabs-io/pythia.git) for an easy-to-use API.
+NOTE: see [pythiags](https://github.com/rmclabs-io/pythiags.git) for an easy-to-use API.
 
 ## References
 
