@@ -19,9 +19,9 @@ jobs:
         with:
           python-version: 3.6
 
-      - name: Ensure master is up to date
+      - name: Ensure main is up to date
         run: |
-          git fetch -vvv --dry-run |& grep master | fgrep "[up to date]"
+          git fetch -vvv --dry-run |& grep main | fgrep "[up to date]"
 
       - name: Install deps
         run: |
