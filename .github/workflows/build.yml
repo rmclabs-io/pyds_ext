@@ -1,0 +1,95 @@
+name: Deepstream Jetson Docker
+
+on:
+  push:
+    tags:
+      - 'v?[0-9]+.[0-9]+.[0-9]+*'
+  pull_request:
+
+jobs:
+
+  qemu:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+       include:
+         - target: dev
+           arch: arm64
+
+    steps:
+
+      - name: Set up QEMU
+        id: qemu
+        uses: docker/setup-qemu-action@v1
+        with:
+          image: tonistiigi/binfmt:latest
+          platforms: arm64
+
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Run Container detached
+        run: |
+          docker run \
+            --rm \
+            --detach \
+            --cidfile=./current-container \
+            -e DISPLAY=:0 \
+            --workdir /opt/dsinstaller \
+            -v `pwd`:/opt/dsinstaller \
+            --entrypoint tail \
+            nvcr.io/nvidia/deepstream-l4t:5.0.1-20.09-samples \
+            -f /dev/null \
+          && export CONTAINER_NAME=`cat ./current-container` \
+          && echo "CONTAINER_NAME=$CONTAINER_NAME" >> $GITHUB_ENV
+        env:
+          DISPLAY: :0
+
+      - name: Create wheel from docker
+        run: |
+          docker exec ${{ env.CONTAINER_NAME }} \
+            .scripts/build.sh
+          mkdir -p dist
+          mv *.whl dist
+          export WHEEL=`ls dist | grep whl | tail -n1` \
+            && echo "WHEEL=$WHEEL" >> $GITHUB_ENV
+
+      - name: Create Release
+        if: ${{ startsWith(github.ref, 'refs/tags') }}
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          draft: false
+          prerelease: false
+
+      - name: Upload Release Asset
+        if: ${{ startsWith(github.ref, 'refs/tags') }}
+        id: upload-release-asset 
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
+          asset_path: dist/${{ env.WHEEL }}
+          asset_name: ${{ env.WHEEL }}
+          asset_content_type: application/zip
+
+      - name: pypi-publish
+        if: ${{ startsWith(github.ref, 'refs/tags') }}
+        uses: pypa/gh-action-pypi-publish@v1.4.2
+        with:
+          user: __token__
+          password: ${{ secrets.PYPI_TOKEN }}
+          packages_dir: dist
+          skip_existing: false
+          verbose: true
+
+      - name: Stop docker container
+        if: always()
+        id: stop-docker-container
+        run: |
+          docker container rm --force ${{ env.CONTAINER_NAME }}
