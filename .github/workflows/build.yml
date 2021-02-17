@@ -45,7 +45,7 @@ jobs:
         env:
           DISPLAY: :0
 
-      - name: Create Poetry Artifact - poetry build sdist and wheels
+      - name: Create wheel from docker
         run: |
           docker exec ${{ env.CONTAINER_NAME }} \
             .scripts/build.sh
