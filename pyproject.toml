@@ -16,5 +16,5 @@ bump_message             = "release: $current_version → $new_version"
 update_changelog_on_bump = true
 annotated_tag            = true
 version_files = [
-  """setup.py:^VERSION\\d+=\\d+['"](?:\\d+.?){3}.*['"]&""",
+  "setup.py:^VERSION\\s+=\\s+['\"](?:\\d+.?){3}.*?['\"]$",
 ]
