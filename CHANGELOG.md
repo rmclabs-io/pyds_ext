@@ -1,3 +1,9 @@
+## 1.2.1 (2021-02-17)
+
+### Fix
+
+- **build**: renamed wheel to allow pypi upload (#6)
+
 ## 1.2.0 (2021-02-17)
 
 ### Fix
