@@ -1,9 +1,9 @@
-name: Bump version on master push
+name: Bump version on main push
 
 on:
   push:
     branches:
-      - master
+      - main
 
 jobs:
   bump-version:
@@ -47,5 +47,5 @@ jobs:
       - name: Pushing to branch
         run: |
           export remote_repo="https://${{ github.actor }}:${{ secrets.CR_PAT }}@github.com/${{ github.repository }}.git" \
-          && git pull $remote_repo master \
-          && git push "$remote_repo" HEAD:master --follow-tags --tags
+          && git pull $remote_repo main \
+          && git push "$remote_repo" HEAD:main --follow-tags --tags
