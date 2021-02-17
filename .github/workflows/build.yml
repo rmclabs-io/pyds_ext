@@ -79,6 +79,7 @@ jobs:
           asset_content_type: application/zip
 
       - name: pypi-publish
+        if: ${{ startsWith(github.ref, 'refs/tags') }}
         uses: pypa/gh-action-pypi-publish@v1.4.2
         with:
           user: __token__
